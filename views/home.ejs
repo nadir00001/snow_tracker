@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- endinject -->
+  <!--<link rel="shortcut icon" href="images/favicon.png" />-->
+  <link rel="shortcut icon" type="text/css"  href="images/favicon.png" />
+
+</head>
+
+<body>
+  <div class="container-scroller">
+
+
+    <%-include("top_nav")-%>
+
+    <div class="container-fluid page-body-wrapper">
+
+      <%-include("side_nav")-%>
+
+
+      <div class="main-panel">
+
+        <% if (errors) { %>
+        <% for(x=0;errors.length>x;x++){%>
+        <div style="z-index: 999;margin: 10px 10px 10px 4%;position: fixed;" class="alert alert-danger alert-dismissible fade show col-8" role="alert">
+          <strong>Error : </strong> <%= errors[x] %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <% }%>
+        <% } %>
+
+        <% if (messages) { %>
+        <% for(c=0;messages.length>c;c++){%>
+        <div style="z-index: 999;margin: 10px 10px 10px 4%;position: fixed;" class="alert alert-success alert-dismissible fade show col-8" role="alert">
+          <strong>Success : </strong> <%= messages[c] %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <% }%>
+        <% } %>
+
+        <div style="z-index:999;margin: 10px 10px 10px 4%;position: fixed;display:none;" class="alert alert-primary alert-dismissible fade show col-8 while_loading" role="alert">
+          <strong>Info : </strong> Instance update in progress please wait few seconds...
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div style="padding: 1rem 2rem;" class="content-wrapper">
+          <div class="row">
+            <div class="col-md-12 grid-margin">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h4 class="font-weight-bold mb-0">Easynow</h4>
+                </div>
+                <div>
+                  <a href="/add_instance" class="btn btn-primary btn-icon-text btn-rounded">
+                    <i class="ti-plus btn-icon-prepend"></i>Add an instance
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--TABLE START-->
+
+          <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">My instances</h4>
+                <div class="table-responsive">
+                  <!--<table class="table table-hover">-->
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Username</th>
+                        <th>Instance ID</th>
+                        <th>Days left</th>
+                        <th>Last login</th>
+                        <!--<th></th>--->
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <% if (instances) { %>
+                      <% for(c=0;instances.length>c;c++){%>
+                      <tr>
+                        <td><%=instances[c].id%></td>
+                        <td><%=instances[c].instance_email%></td>
+                        <td><a href="https://<%= instances[c].instance %>.service-now.com/"><%=instances[c].instance%></a></td>
+                        <td class="text-danger"><%=instances[c].day_left%></td>
+                        <td><label class="badge badge-danger"><%=instances[c].last_login_db%></label></td>
+                        <form class="" action="/relaunch_instance/<%= instances[c].instance %>" method="post">
+                          <td><button type="submit" class="btn btn-success relaunch"><i class="ti-reload ml-1"></button></td>
+                        </form>
+                        <!--<td><a href="https://<%= instances[c].instance %>.service-now.com/" class="btn btn-success">Login</a></td>-->
+                        <form class="" action="/remove_instance/<%= instances[c].instance %>" method="post">
+                          <td><button type="submit" class="btn btn-danger delete"><i class="ti-trash ml-1"></button></td>
+                        </form>
+                      </tr>
+
+                      <% }%>
+                      <% } %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal HTML -->
+        <div id="myModal" class="modal fade">
+          <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+              <div class="modal-header justify-content-center">
+                <div class="icon-box">
+                  <i class="material-icons">&#xE876;</i>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              </div>
+              <div class="modal-body text-center">
+                <h4>Great!</h4>
+                <p>Your account has been created successfully.</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!--TABLE END-->
+
+
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2018 <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- plugins:js -->
+  <script src="vendors/base/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <script src="vendors/chart.js/Chart.min.js"></script>
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="js/off-canvas.js"></script>
+  <script src="js/hoverable-collapse.js"></script>
+  <script src="js/template.js"></script>
+  <script src="js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="js/dashboard.js"></script>
+  <!-- End custom js for this page-->
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".relaunch").click(function() {
+        $('.while_loading').show()
+      });
+    });
+  </script>
+</body>
+
+</html>

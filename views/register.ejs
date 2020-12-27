@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../../vendors/base/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../../css/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="../../images/favicon.png">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+</head>
+
+<body>
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper d-flex align-items-center auth px-0">
+
+        <div class="row w-100 mx-0">
+          <div class="col-lg-4 mx-auto">
+            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+              <div class="brand-logo">
+                <img src="../../images/logo.svg" alt="logo">
+              </div>
+
+              <% if (errors) { %>
+              <% for(x=0;errors.length>x;x++){%>
+              <div class="alert alert-danger alert-dismissible fade show col-12" role="alert">
+                <strong>Error : </strong> <%= errors[x] %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <% }%>
+              <% } %>
+
+              <% if (messages) { %>
+              <% for(c=0;messages.length>c;c++){%>
+              <div class="alert alert-success alert-dismissible fade show col-12" role="alert">
+                <strong>Success : </strong> <%= messages[c] %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <% }%>
+              <% } %>
+              <h4>New here?</h4>
+              <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
+              <form class="pt-3" method="post" action="/register">
+                <div class="form-group">
+                  <input autocomplete="new-password" type="text" class="form-control form-control-lg" name="first_name" id="first_name" placeholder="First name">
+                </div>
+                <div class="form-group">
+                  <input autocomplete="new-password" type="text" class="form-control form-control-lg" name="last_name" id="last_name" placeholder="Last name">
+                </div>
+                <div class="form-group">
+                  <input autocomplete="new-password" type="text" class="form-control form-control-lg" name="username" id="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                  <input autocomplete="new-password" type="email" class="form-control form-control-lg" name="email" id="email" placeholder="Email">
+                </div>
+
+                <div class="form-group">
+                  <input autocomplete="new-password" type="password" class="form-control form-control-lg" name="password" id="password" placeholder="Password">
+                </div>
+
+                <div class="form-group">
+                  <input autocomplete="new-password" type="password" class="form-control form-control-lg" name="confirm_password" id="confirm_password" placeholder="Password">
+                </div>
+                <div class="mb-4">
+                  <div class="form-check">
+                    <label class="form-check-label text-muted">
+                      <input type="checkbox" class="form-check-input">
+                      I agree to all Terms &amp; Conditions
+                      <i class="input-helper"></i></label>
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <button disabled id="submit" type="submit" class="btn btn-primary mr-2">Sign in</button>
+                  <button disabled onclick="displayPasswordConf()" id="checkPasswords" type="button" class="btn btn-light"><i class="far fa-eye"></i></button>
+                </div>
+                <div class="text-center mt-4 font-weight-light">
+                  Already have an account? <a href="/login" class="text-primary">Login</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../../vendors/base/vendor.bundle.base.js"></script>
+  <script src="../../js/off-canvas.js"></script>
+  <script src="../../js/hoverable-collapse.js"></script>
+  <script src="../../js/template.js"></script>
+  <script src="../../js/todolist.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $('#password, #confirm_password').on('keyup', function() {
+      if ($('#password').val() != "" || $('#confirm_password').val() != "") {
+        $("#checkPasswords").prop('disabled', false);
+        $("#submit").prop('disabled', true);
+      } else {
+        $("#checkPasswords").prop('disabled', true);
+      }
+
+      if ($('#password').val() == $('#confirm_password').val() && ($('#password').val() != "" || $('#confirm_password').val() != "")) {
+        $('#password').css('border-color', 'green');
+        $('#confirm_password').css('border-color', 'green');
+        $("#submit").prop('disabled', false);
+      } else {
+        $('#password').css('border-color', 'red');
+        $('#confirm_password').css('border-color', 'red');
+        $("#submit").prop('disabled', true);
+      }
+    });
+
+    function checkPasswords() {
+      if ($('#password').val() == $('#confirm_password').val()) {
+        return false;
+      }
+    }
+
+    function displayPassword() {
+      var x = document.getElementById("password");
+      if (x.type === "password") {
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+    }
+
+    function displayPasswordConf() {
+      var x = document.getElementById("password");
+      var y = document.getElementById("confirm_password");
+      if (x.type === "password") {
+        x.type = "text";
+        y.type = "text";
+        $(".fa-eye-slash").addClass("fa-eye");
+        $(".fa-eye-slash").removeClass("fa-eye-slash");
+      } else {
+        x.type = "password";
+        y.type = "password";
+        $(".fa-eye").addClass("fa-eye-slash");
+        $(".fa-eye").removeClass("fa-eye");
+
+      }
+
+    }
+
+    //<i class="far fa-eye-slash"></i>
+
+    //password.onchange = Validate();
+    //confirm_password.onkeyup = Validate();
+  </script>
+</body>
+
+</html>

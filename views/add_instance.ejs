@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>RoyalUI Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../../vendors/base/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../../css/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+</head>
+
+<body>
+  <div class="container-scroller">
+    <%-include("top_nav")-%>
+    <div class="container-fluid page-body-wrapper">
+      <%-include("side_nav")-%>
+      <div class="main-panel">
+
+
+        <% if (errors) { %>
+        <% for(x=0;errors.length>x;x++){%>
+        <div style="z-index: 999;margin: 10px 10px 10px 4%;position: fixed;" class="alert alert-danger alert-dismissible fade show col-8" role="alert">
+          <strong>Error : </strong> <%= errors[x] %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <% }%>
+        <% } %>
+
+        <% if (messages) { %>
+        <% for(c=0;messages.length>c;c++){%>
+        <div style="z-index: 999;margin: 10px 10px 10px 4%;position: fixed;" class="alert alert-success alert-dismissible fade show col-8" role="alert">
+          <strong>Success : </strong> <%= messages[c] %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <% }%>
+        <% } %>
+
+
+
+        <div class="content-wrapper">
+          <div class="row">
+
+
+            <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Add an instance</h4>
+
+                  <form class="forms-sample" method="post" action="/add_instance">
+                    <div class="form-group">
+                      <label for="exampleInputUsername1">Instance id</label>
+                      <input autocomplete="new-password" type="text" class="form-control" name="instance" placeholder="Username" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Instance email</label>
+                      <input type="email" class="form-control" name="instance_email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Instance password</label>
+                      <input autocomplete="new-password" type="password" class="form-control" id="password" name="instance_password" placeholder="Password" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputConfirmPassword1">Confirm instance password</label>
+                      <input type="password" class="form-control" id="confirm_password" name="instance_password_conf" placeholder="Confirm password" required>
+                    </div>
+
+                    <button disabled id="submit" type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <button disabled onclick="displayPasswordConf()" id="checkPasswords" type="button" class="btn btn-light"><i class="far fa-eye"></i></button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2018 <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
+              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
+            </div>
+          </footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="../../vendors/base/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- inject:js -->
+    <script src="../../js/off-canvas.js"></script>
+    <script src="../../js/hoverable-collapse.js"></script>
+    <script src="../../js/template.js"></script>
+    <script src="../../js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="../../js/file-upload.js"></script>
+    <!-- End custom js for this page-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      $('#password, #confirm_password').on('keyup', function() {
+        if ($('#password').val() != "" || $('#confirm_password').val() != "") {
+          $("#checkPasswords").prop('disabled', false);
+          $("#submit").prop('disabled', true);
+        } else {
+          $("#checkPasswords").prop('disabled', true);
+        }
+
+        if ($('#password').val() == $('#confirm_password').val() && ($('#password').val() != "" || $('#confirm_password').val() != "")) {
+          $('#password').css('border-color', 'green');
+          $('#confirm_password').css('border-color', 'green');
+          $("#submit").prop('disabled', false);
+        } else {
+          $('#password').css('border-color', 'red');
+          $('#confirm_password').css('border-color', 'red');
+          $("#submit").prop('disabled', true);
+        }
+      });
+
+      function checkPasswords() {
+        if ($('#password').val() == $('#confirm_password').val()) {
+          return false;
+        }
+      }
+
+      function displayPassword() {
+        var x = document.getElementById("password");
+        if (x.type === "password") {
+          x.type = "text";
+        } else {
+          x.type = "password";
+        }
+      }
+
+      function displayPasswordConf() {
+        var x = document.getElementById("password");
+        var y = document.getElementById("confirm_password");
+        if (x.type === "password") {
+          x.type = "text";
+          y.type = "text";
+          $(".fa-eye-slash").addClass("fa-eye");
+          $(".fa-eye-slash").removeClass("fa-eye-slash");
+        } else {
+          x.type = "password";
+          y.type = "password";
+          $(".fa-eye").addClass("fa-eye-slash");
+          $(".fa-eye").removeClass("fa-eye");
+
+        }
+
+      }
+
+      //<i class="far fa-eye-slash"></i>
+
+      //password.onchange = Validate();
+      //confirm_password.onkeyup = Validate();
+    </script>
+</body>
+
+</html>
